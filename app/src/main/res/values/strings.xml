@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AirFlow Calculator</string>
+    <string name="btnRetrieveSavedFarmConfiguration">Retrive Saved Farm Configuration</string>
+    <string name="btnStartNewConfiguration">Start New Configuration</string>
+</resources>

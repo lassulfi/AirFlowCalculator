@@ -2,4 +2,30 @@
     <string name="app_name">AirFlow Calculator</string>
     <string name="btnRetrieveSavedFarmConfiguration">Retrive Saved Farm Configuration</string>
     <string name="btnStartNewConfiguration">Start New Configuration</string>
+    <string name="empty_project_list">No farms found.</string>
+    <string name="main_info_title_textview">We need some information</string>
+    <string name="site_name_edittext_hint">Site name</string>
+    <string name="panel_generation_edittext">Panel Generation</string>
+    <string name="available_compressors_edittext_hint">Available Compressors</string>
+    <string name="compressor_output_edittext_hint">Compressor Output CFM (FAD)</string>
+    <string name="active_compressors_textview">Active compressors</string>
+    <string name="btnNext">Next</string>
+    <string name="number_of_pens_edittext_hint">Number of Pens</string>
+    <string name="channels_per_pen_edittext_hint">Channels per Pen</string>
+    <string name="active_pens_textview">Active pens</string>
+    <string name="chnl_walkaways_edittext_hint">Number of Walkways Channels</string>
+    <string name="active_walkways_channels_spinner">Active Walkways Channels</string>
+    <string name="panel_set_pressure_edittext_hint">Panel Set Pressure (psi)</string>
+    <string name="btn_calculate_text">Calc It</string>
+    <string name="target_flow_display_textview">Meter should read </string>
+    <string name="comparative_standard_meter_textview">Comparative reading should be </string>
+    <string name="btn_save_calc_text">Save Calc</string>
+    <string name="btn_new_calc_text">New Calc</string>
+    
+    <string-array name="panel_generation_values">
+        <item>1</item>
+        <item>2</item>
+        <item>4</item>
+    </string-array>
+
 </resources>

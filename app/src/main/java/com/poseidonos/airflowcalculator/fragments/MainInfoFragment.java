@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.poseidonos.airflowcalculator.R;
+import com.poseidonos.airflowcalculator.controller.FarmController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,8 @@ import java.util.List;
  */
 public class MainInfoFragment extends Fragment {
 
+    private static final String PARCEL_CONTROLLER = "parcel_controller";
+
     //Screen Elements
     private EditText nameSiteEditText;
     private Spinner panelGenSpinner;
@@ -34,15 +37,20 @@ public class MainInfoFragment extends Fragment {
     private Spinner numCompsSpinner;
     private Button nextButton;
 
+    private FarmController mFarmController;
+
     public MainInfoFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_main_info, container, false);
+
+        //Retrieve the controller
+        Bundle bundle = getArguments();
+        mFarmController = (FarmController) bundle.getParcelable(PARCEL_CONTROLLER);
 
         //Retrieve elements from screen
         nameSiteEditText = rootView.findViewById(R.id.site_name_edittext);
@@ -96,6 +104,12 @@ public class MainInfoFragment extends Fragment {
                 int availNumComps = Integer.valueOf(availNumCompsEditText.getText().toString());
                 int compFlow = Integer.valueOf(compFlowEditText.getText().toString());
                 int numComps = Integer.valueOf(numCompsSpinner.getSelectedItem().toString());
+
+                mFarmController.setNameSite(nameSite);
+                mFarmController.setPanelGen(panelGen);
+                mFarmController.setAvailNumComps(availNumComps);
+                mFarmController.setCompFlow(compFlow);
+                mFarmController.setNumComps(numComps);
 
                 //Creates the fragments for user inputs
                 createInformationFragments();
@@ -153,9 +167,15 @@ public class MainInfoFragment extends Fragment {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(PARCEL_CONTROLLER, mFarmController);
+
+        AdtionalInfoFragment fragment = new AdtionalInfoFragment();
+        fragment.setArguments(bundle);
+
         //Replace whatever is in the fragment_container view with the new fragment
         //and add the transaction back to stack
-        ft.replace(R.id.fragment_content, new AdtionalInfoFragment());
+        ft.replace(R.id.fragment_content, fragment);
         ft.addToBackStack(null);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 

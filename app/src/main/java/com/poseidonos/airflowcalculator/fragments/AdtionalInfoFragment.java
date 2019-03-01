@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.poseidonos.airflowcalculator.MainActivity;
 import com.poseidonos.airflowcalculator.R;
 import com.poseidonos.airflowcalculator.ResultsActivity;
+import com.poseidonos.airflowcalculator.controller.FarmController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,8 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class AdtionalInfoFragment extends Fragment {
+
+    private static final String PARCEL_CONTROLLER = "parcel_controller";
 
     //Screen elements
     private EditText numPensEditText;
@@ -38,16 +41,22 @@ public class AdtionalInfoFragment extends Fragment {
     private EditText readPressureEditText;
     private Button calculateButton;
 
+    private FarmController mFarmController;
+
     public AdtionalInfoFragment() {
         // Required empty public constructor
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_adtional_info, container, false);
+
+        //Retrieve the controller
+        Bundle bundle = getArguments();
+        mFarmController = (FarmController) bundle.getParcelable(PARCEL_CONTROLLER);
 
         //Retrieve elements from screen
         numPensEditText = rootView.findViewById(R.id.number_of_pens_edittext);
@@ -137,7 +146,17 @@ public class AdtionalInfoFragment extends Fragment {
                 int activeChnlWalk = Integer.valueOf(activeChnlWalkSpinner.getSelectedItem().toString());
                 int readPressure = Integer.valueOf(readPressureEditText.getText().toString());
 
+                mFarmController.setNumPens(numPens);
+                mFarmController.setChanPerPen(chanPerPen);
+                mFarmController.setActivePens(activePen);
+                mFarmController.setChnlWalkway(chnlWalkway);
+                mFarmController.setActiveChnlWalk(activeChnlWalk);
+                mFarmController.setReadPressure(readPressure);
+
+                mFarmController.calculate();
+
                 Intent intent = new Intent(getActivity(), ResultsActivity.class);
+                intent.putExtra(PARCEL_CONTROLLER, mFarmController);
                 startActivity(intent);
             }
         });

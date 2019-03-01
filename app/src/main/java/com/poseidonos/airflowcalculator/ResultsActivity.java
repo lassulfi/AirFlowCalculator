@@ -5,14 +5,36 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.poseidonos.airflowcalculator.controller.FarmController;
+
 public class ResultsActivity extends AppCompatActivity {
+
+    private static final String PARCEL_CONTROLLER = "parcel_controller";
+
+    private FarmController mFarmController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
+
+        mFarmController = (FarmController) getIntent().getParcelableExtra(PARCEL_CONTROLLER);
+
+        TextView targetFlowDisplayTextView = findViewById(R.id.target_flow_display_textview);
+        TextView comparativeStandardMeterTextView = findViewById(R.id.comparative_standard_meter_textview);
+
+        String targetFlowDisplay = getResources().getString(R.string.target_flow_display_textview)
+                .concat(String.format("%.1f", mFarmController.getTargetFlowDisplay()));
+
+        String compartiveStandardMeter = getResources().getString(R.string.comparative_standard_meter_textview)
+                .concat(String.format("%.1f", mFarmController.getStdReading()));
+
+        targetFlowDisplayTextView.setText(targetFlowDisplay);
+        comparativeStandardMeterTextView.setText(compartiveStandardMeter);
 
         Button btnSaveCalc = findViewById(R.id.btnSaveCal);
         btnSaveCalc.setOnClickListener(new View.OnClickListener() {

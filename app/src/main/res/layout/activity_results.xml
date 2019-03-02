@@ -9,9 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <include android:id="@+id/result_toolbar"
+            layout="@layout/toolbar"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal">
             <ImageView
                 android:layout_width="wrap_content"
@@ -20,15 +25,24 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:paddingBottom="60dp"
                     android:id="@+id/target_flow_display_textview"
+                    android:textSize="18sp"
+                    android:layout_gravity="center"
                     android:text="@string/target_flow_display_textview"/>
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:paddingTop="60dp"
+                    android:textSize="18sp"
+                    android:gravity="center"
                     android:id="@+id/comparative_standard_meter_textview"
                     android:text="@string/comparative_standard_meter_textview"/>
             </LinearLayout>
@@ -36,16 +50,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal">
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:id="@+id/btnSaveCal"
+                android:background="@drawable/white_button_background"
+                android:layout_margin="20dp"
                 android:text="@string/btn_save_calc_text"/>
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:id="@+id/btnNewCalc"
+                android:background="@drawable/white_button_background"
+                android:layout_margin="20dp"
                 android:text="@string/btn_new_calc_text"/>
         </LinearLayout>
 

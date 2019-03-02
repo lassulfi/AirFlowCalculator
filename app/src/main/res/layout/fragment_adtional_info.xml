@@ -9,10 +9,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/number_of_pens_edittext_hint"/>
+            android:textSize="28sp"
+            android:gravity="center"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="22dp"
+            android:text="@string/aditional_info_textview" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/number_of_pens_edittext_hint"
+            android:textSize="16sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,6 +33,13 @@
             android:hint="@string/number_of_pens_edittext_hint"
             android:inputType="number"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:text="@string/channels_per_pen_textview"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,6 +57,13 @@
             android:entries="@array/spinner_default_values"
             android:id="@+id/active_pens_spinner"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:text="@string/chnl_walkaways_textview"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,6 +82,13 @@
             android:entries="@array/spinner_default_values"
             android:id="@+id/active_walkways_channels_spinner"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:text="@string/panel_set_pressure_textview"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,6 +100,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btn_calculate"
+            android:background="@drawable/grey_button_background"
+            android:textColor="@color/lightBlue"
             android:text="@string/btn_calculate_text"/>
     </LinearLayout>
 

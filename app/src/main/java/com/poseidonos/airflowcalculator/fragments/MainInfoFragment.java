@@ -27,8 +27,6 @@ import java.util.List;
  */
 public class MainInfoFragment extends Fragment {
 
-    private static final String PARCEL_CONTROLLER = "parcel_controller";
-
     //Screen Elements
     private EditText nameSiteEditText;
     private Spinner panelGenSpinner;
@@ -178,7 +176,7 @@ public class MainInfoFragment extends Fragment {
         FragmentTransaction ft = fm.beginTransaction();
 
         Bundle bundle = new Bundle();
-        bundle.putParcelable(PARCEL_CONTROLLER, mFarmController);
+        bundle.putParcelable(FARM_PARCELABLE, mFarmController);
 
         AdtionalInfoFragment fragment = new AdtionalInfoFragment();
         fragment.setArguments(bundle);

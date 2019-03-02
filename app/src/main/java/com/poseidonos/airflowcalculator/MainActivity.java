@@ -10,6 +10,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.poseidonos.airflowcalculator.controller.FarmController;
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private FarmController mFarmController;
 
+    private Toolbar toolbar;
+
     private static final String FARM_PARCELABLE = "farm_parceable";
 
     @Override
@@ -41,8 +44,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        toolbar = findViewById(R.id.main_activity_toolbar);
+        toolbar.setTitle(R.string.app_name);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mFarmController = new FarmController(getApplicationContext());
-        mFarmController.createNewFarm();
 
         Intent intent = getIntent();
         if(intent != null){
@@ -63,17 +71,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragment_content,fragment);
-        ft.addToBackStack(null);
+        //ft.addToBackStack(null);
         ft.commit();
     }
 
-    //TODO: add a toolbar to the mainActivity and add a back button
-
     @Override
     public void onBackPressed() {
-        if(getFragmentManager().getBackStackEntryCount() > 0){
+        if(getSupportFragmentManager().getBackStackEntryCount() > 0){
             Log.i("MAIN_ACTIVITY", "popping backstack");
-            getFragmentManager().popBackStack();
+            getSupportFragmentManager().popBackStack();
         } else {
             Log.i("MAIN_ACTIVITY", "nothing on backstack, calling super");
             super.onBackPressed();
@@ -81,9 +87,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
-        getSupportLoaderManager().initLoader(0, null, this);
     }
 
     @Override

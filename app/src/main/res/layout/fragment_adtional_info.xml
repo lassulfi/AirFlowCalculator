@@ -9,6 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/number_of_pens_edittext_hint"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,6 +34,7 @@
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:entries="@array/spinner_default_values"
             android:id="@+id/active_pens_spinner"/>
 
         <EditText
@@ -47,6 +52,7 @@
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:entries="@array/spinner_default_values"
             android:id="@+id/active_walkways_channels_spinner"/>
 
         <EditText

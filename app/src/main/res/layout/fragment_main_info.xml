@@ -18,6 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/site_name_edittext"
+            android:inputType="textAutoComplete"
+            android:maxLines="1"
             android:hint="@string/site_name_edittext_hint"/>
 
         <TextView
@@ -51,6 +53,7 @@
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:entries="@array/spinner_default_values"
             android:id="@+id/active_compressors_spinner"/>
 
         <Button

@@ -1,19 +1,30 @@
 package com.poseidonos.airflowcalculator.controller;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry;
 import com.poseidonos.airflowcalculator.entities.Farm;
 
 public class FarmController implements Parcelable {
 
     private Farm mFarm;
+    private Context mContext;
+    private Uri mUri;
 
-    public FarmController() {
+    private boolean loaded;
+
+    public FarmController(Context context) {
+        mContext = context;
     }
 
     protected FarmController(Parcel in) {
         mFarm = in.readParcelable(Farm.class.getClassLoader());
+        loaded = in.readByte() != 0;
     }
 
     public static final Creator<FarmController> CREATOR = new Creator<FarmController>() {
@@ -33,14 +44,30 @@ public class FarmController implements Parcelable {
      */
     public void createNewFarm(){
         this.mFarm = new Farm();
+        this.loaded = false;
     }
 
     /**
      * Loads an existing farm to the controller
-     * @param farm
+     * @param cursor
      */
-    public void loadFarm(Farm farm){
-        this.mFarm = farm;
+    public void loadFarm(Cursor cursor){
+        if(cursor.moveToFirst()){
+            this.mFarm.setNameSite(cursor.getString(cursor.getColumnIndex(FarmEntry.COLUMN_FARM_NAME)));
+            this.mFarm.setPanelGen(cursor.getInt(cursor.getColumnIndex(FarmEntry.COLUMN_PANEL_GENERATION)));
+            this.mFarm.setAvailNumComps(cursor.getInt(cursor.getColumnIndex(FarmEntry.COLUMN_AVAILABLE_COMPRESSORS)));
+            this.mFarm.setCompFlow(cursor.getInt(cursor.getColumnIndex(FarmEntry.COLUMN_COMPRESSOR_OUTPUT)));
+            this.mFarm.setNumComps(cursor.getInt(cursor.getColumnIndex(FarmEntry.COLUMN_AVAILABLE_COMPRESSORS)));
+            this.mFarm.setNumPens(cursor.getInt(cursor.getColumnIndex(FarmEntry.COLUMN_NUMBER_PENS)));
+            this.mFarm.setChanPerPen(cursor.getInt(cursor.getColumnIndex(FarmEntry.COLUMN_CHANNEL_PER_PEN)));
+            this.mFarm.setActivePens(cursor.getInt(cursor.getColumnIndex(FarmEntry.COLUMN_ACTIVE_PENS)));
+            this.mFarm.setChnlWalkway(cursor.getInt(cursor.getColumnIndex(FarmEntry.COLUMN_NUMBER_WALKWAY_CHANNELS)));
+            this.mFarm.setActiveChnlWalk(cursor.getInt(cursor.getColumnIndex(FarmEntry.COLUMN_ACTIVE_WALKWAY_CHANNELS)));
+            this.mFarm.setReadPressure(cursor.getInt(cursor.getColumnIndex(FarmEntry.COLUMN_READ_PRESSURE)));
+            this.mFarm.setTargetFlowDisplay(cursor.getDouble(cursor.getColumnIndex(FarmEntry.COLUMN_TARGET_FLOW_DISPLAY)));
+            this.mFarm.setStdReading(cursor.getDouble(cursor.getColumnIndex(FarmEntry.COLUMN_COMPARATIVE_STANDARD_METER)));
+            this.loaded = true;
+        }
     }
 
     /**
@@ -235,6 +262,30 @@ public class FarmController implements Parcelable {
         return this.mFarm.getStdReading();
     }
 
+    public Context getContext() {
+        return mContext;
+    }
+
+    public void setContext(Context mContext) {
+        this.mContext = mContext;
+    }
+
+    public Uri getUri() {
+        return mUri;
+    }
+
+    public void setUri(Uri mUri) {
+        this.mUri = mUri;
+    }
+
+    public boolean isLoaded() {
+        return loaded;
+    }
+
+    public void setLoaded(boolean loaded){
+        this.loaded = loaded;
+    }
+
     /**
      * Calculates the targetFlowDisplay and the StdReading for a farm
      */
@@ -282,5 +333,29 @@ public class FarmController implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeParcelable(mFarm, i);
+        parcel.writeByte((byte) (loaded ? 1 : 0));
+    }
+
+    public boolean save() {
+        ContentValues values = new ContentValues();
+        values.put(FarmEntry.COLUMN_FARM_NAME, mFarm.getNameSite());
+        values.put(FarmEntry.COLUMN_PANEL_GENERATION, mFarm.getPanelGen());
+        values.put(FarmEntry.COLUMN_AVAILABLE_COMPRESSORS, mFarm.getAvailNumComps());
+        values.put(FarmEntry.COLUMN_COMPRESSOR_OUTPUT, mFarm.getCompFlow());
+        values.put(FarmEntry.COLUMN_ACTIVE_COMPRESSORS, mFarm.getNumComps());
+        values.put(FarmEntry.COLUMN_NUMBER_PENS, mFarm.getNumPens());
+        values.put(FarmEntry.COLUMN_CHANNEL_PER_PEN, mFarm.getChanPerPen());
+        values.put(FarmEntry.COLUMN_ACTIVE_PENS, mFarm.getActivePens());
+        values.put(FarmEntry.COLUMN_NUMBER_WALKWAY_CHANNELS, mFarm.getChnlWalkway());
+        values.put(FarmEntry.COLUMN_ACTIVE_WALKWAY_CHANNELS, mFarm.getActiveChnlWalk());
+        values.put(FarmEntry.COLUMN_READ_PRESSURE, mFarm.getReadPressure());
+        values.put(FarmEntry.COLUMN_TARGET_FLOW_DISPLAY, mFarm.getTargetFlowDisplay());
+        values.put(FarmEntry.COLUMN_COMPARATIVE_STANDARD_METER, mFarm.getStdReading());
+
+        Uri uri = mContext.getContentResolver().insert(FarmEntry.CONTENT_URI, values);
+        if(uri == null){
+            return false;
+        }
+        return true;
     }
 }

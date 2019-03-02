@@ -1,23 +1,21 @@
 package com.poseidonos.airflowcalculator.fragments;
 
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.poseidonos.airflowcalculator.MainActivity;
 import com.poseidonos.airflowcalculator.R;
 import com.poseidonos.airflowcalculator.ResultsActivity;
 import com.poseidonos.airflowcalculator.controller.FarmController;
@@ -30,7 +28,7 @@ import java.util.List;
  */
 public class AdtionalInfoFragment extends Fragment {
 
-    private static final String PARCEL_CONTROLLER = "parcel_controller";
+    private static final String FARM_PARCELABLE = "farm_parceable";
 
     //Screen elements
     private EditText numPensEditText;
@@ -47,7 +45,6 @@ public class AdtionalInfoFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,7 +53,11 @@ public class AdtionalInfoFragment extends Fragment {
 
         //Retrieve the controller
         Bundle bundle = getArguments();
-        mFarmController = (FarmController) bundle.getParcelable(PARCEL_CONTROLLER);
+        mFarmController = (FarmController) bundle.getParcelable(FARM_PARCELABLE);
+
+        if(mFarmController.isLoaded()){
+            updateUI();
+        }
 
         //Retrieve elements from screen
         numPensEditText = rootView.findViewById(R.id.number_of_pens_edittext);
@@ -156,13 +157,39 @@ public class AdtionalInfoFragment extends Fragment {
                 mFarmController.calculate();
 
                 Intent intent = new Intent(getActivity(), ResultsActivity.class);
-                intent.putExtra(PARCEL_CONTROLLER, mFarmController);
+                intent.putExtra(FARM_PARCELABLE, mFarmController);
                 startActivity(intent);
             }
         });
 
         return rootView;
     }
+
+    private void updateUI() {
+        numPensEditText.setText(mFarmController.getNumPens());
+        chanPerPenEditText.setText(mFarmController.getChanPerPen());
+        List<String> activePenSinnerValues = new ArrayList<>();
+        for(int i = 0; i < mFarmController.getActivePens(); i++){
+            activePenSinnerValues.add(Integer.toString(i + 1));
+        }
+        ArrayAdapter<String> activePenSpinnerAdapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.support_simple_spinner_dropdown_item, mFarmController.getActivePens());
+        activePenSpinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        activePensSpinner.setAdapter(activePenSpinnerAdapter);
+        activePensSpinner.setSelection(mFarmController.getActivePens() - 1);
+        chnlWalkwaysEditText.setText(mFarmController.getChnlWalkway());
+        List<String> activeChnlWalkValues = new ArrayList<>();
+        for(int i = 0; i < mFarmController.getChnlWalkway(); i++){
+            activeChnlWalkValues.add(Integer.toString(i + 1));
+        }
+        ArrayAdapter<String> activeChnlWalkAdapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.support_simple_spinner_dropdown_item, mFarmController.getChnlWalkway());
+        activeChnlWalkAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        activeChnlWalkSpinner.setAdapter(activeChnlWalkAdapter);
+        activeChnlWalkSpinner.setSelection(mFarmController.getChnlWalkway() - 1);
+        readPressureEditText.setText(String.valueOf(mFarmController.getReadPressure()));
+    }
+
 
     /**
      * Validates EditText input fields.

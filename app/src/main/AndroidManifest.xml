@@ -37,6 +37,10 @@
                 android:value=".MainActivity"
                 />
         </activity>
+        <provider
+            android:authorities="com.poseidonos.airflowcalculator"
+            android:name=".data.FarmProvider"
+            android:exported="false"/>
     </application>
 
 </manifest>

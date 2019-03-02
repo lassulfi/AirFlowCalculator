@@ -1,10 +1,10 @@
 package com.poseidonos.airflowcalculator.fragments;
 
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -39,6 +39,8 @@ public class MainInfoFragment extends Fragment {
 
     private FarmController mFarmController;
 
+    private static final String FARM_PARCELABLE = "farm_parceable";
+
     public MainInfoFragment() {
         // Required empty public constructor
     }
@@ -46,11 +48,8 @@ public class MainInfoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_main_info, container, false);
 
-        //Retrieve the controller
-        Bundle bundle = getArguments();
-        mFarmController = (FarmController) bundle.getParcelable(PARCEL_CONTROLLER);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_main_info, container, false);
 
         //Retrieve elements from screen
         nameSiteEditText = rootView.findViewById(R.id.site_name_edittext);
@@ -59,6 +58,13 @@ public class MainInfoFragment extends Fragment {
         compFlowEditText = rootView.findViewById(R.id.compressor_output_edittext);
         numCompsSpinner = rootView.findViewById(R.id.active_compressors_spinner);
         nextButton = rootView.findViewById(R.id.btnNext);
+
+        Bundle bundle = getArguments();
+        mFarmController = (FarmController) bundle.get(FARM_PARCELABLE);
+
+        if(mFarmController.isLoaded()){
+            updateUI();
+        }
 
         availNumCompsEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -117,6 +123,10 @@ public class MainInfoFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    public void setFarmController(FarmController controller){
+        mFarmController = controller;
     }
 
     /**
@@ -181,5 +191,23 @@ public class MainInfoFragment extends Fragment {
 
         //Commit the transacton
         ft.commit();
+    }
+
+    private void updateUI() {
+        nameSiteEditText.setText(mFarmController.getNameSite());
+        switch (mFarmController.getPanelGen()){
+            case 1:
+                panelGenSpinner.setSelection(0);
+                break;
+            case 2:
+                panelGenSpinner.setSelection(1);
+                break;
+            case 4:
+                panelGenSpinner.setSelection(2);
+                break;
+        }
+        availNumCompsEditText.setText(mFarmController.getAvailNumComps());
+        compFlowEditText.setText(mFarmController.getCompFlow());
+        numCompsSpinner.setSelection(mFarmController.getNumComps() - 1);
     }
 }

@@ -4,14 +4,9 @@ package com.poseidonos.airflowcalculator.fragments;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -23,7 +18,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.poseidonos.airflowcalculator.MainActivity;
 import com.poseidonos.airflowcalculator.R;
 import com.poseidonos.airflowcalculator.controller.FarmController;
 
@@ -58,6 +52,8 @@ public class MainInfoFragment extends Fragment {
 
     private FarmController mFarmController;
     private Uri mUriClickedItem;
+
+    private static final String SCREEN_STATE = "screen_state";
 
     private static final String FARM_PARCELABLE = "farm_parceable";
 
@@ -114,12 +110,12 @@ public class MainInfoFragment extends Fragment {
                 mFarmController.setReadPressure(cursor.getInt(cursor.getColumnIndex(COLUMN_READ_PRESSURE)));
                 mFarmController.setLoaded(true);
             }
-            //getActivity().getSupportLoaderManager().initLoader(0, null, this);
         }
 
         if(mFarmController.isLoaded()){
             updateUI();
         }
+
 
         availNumCompsEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -178,6 +174,22 @@ public class MainInfoFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(SCREEN_STATE, mFarmController);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        if(savedInstanceState != null) {
+            mFarmController = savedInstanceState.getParcelable(SCREEN_STATE);
+            updateUI();
+        }
     }
 
     /**

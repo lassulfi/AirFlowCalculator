@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import static com.poseidonos.airflowcalculator.data.FarmContract.*;
+import static com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry;
 
 public class FarmDbHelper extends SQLiteOpenHelper {
 

@@ -1,17 +1,11 @@
 package com.poseidonos.airflowcalculator.controller;
 
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.CursorLoader;
-import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.RequiresApi;
 
-import com.poseidonos.airflowcalculator.data.FarmContract;
 import com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry;
 import com.poseidonos.airflowcalculator.entities.Farm;
 
@@ -50,29 +44,6 @@ public class FarmController implements Parcelable {
     public void createNewFarm(){
         this.mFarm = new Farm();
         this.loaded = false;
-    }
-
-    /**
-     * Loads an existing farm to the controller
-     * @param cursor
-     */
-    public void loadFarm(Cursor cursor){
-        if(cursor.moveToFirst()){
-            this.mFarm.setNameSite(cursor.getString(cursor.getColumnIndex(FarmEntry.COLUMN_FARM_NAME)));
-            this.mFarm.setPanelGen(cursor.getInt(cursor.getColumnIndex(FarmEntry.COLUMN_PANEL_GENERATION)));
-            this.mFarm.setAvailNumComps(cursor.getInt(cursor.getColumnIndex(FarmEntry.COLUMN_AVAILABLE_COMPRESSORS)));
-            this.mFarm.setCompFlow(cursor.getInt(cursor.getColumnIndex(FarmEntry.COLUMN_COMPRESSOR_OUTPUT)));
-            this.mFarm.setNumComps(cursor.getInt(cursor.getColumnIndex(FarmEntry.COLUMN_AVAILABLE_COMPRESSORS)));
-            this.mFarm.setNumPens(cursor.getInt(cursor.getColumnIndex(FarmEntry.COLUMN_NUMBER_PENS)));
-            this.mFarm.setChanPerPen(cursor.getInt(cursor.getColumnIndex(FarmEntry.COLUMN_CHANNEL_PER_PEN)));
-            this.mFarm.setActivePens(cursor.getInt(cursor.getColumnIndex(FarmEntry.COLUMN_ACTIVE_PENS)));
-            this.mFarm.setChnlWalkway(cursor.getInt(cursor.getColumnIndex(FarmEntry.COLUMN_NUMBER_WALKWAY_CHANNELS)));
-            this.mFarm.setActiveChnlWalk(cursor.getInt(cursor.getColumnIndex(FarmEntry.COLUMN_ACTIVE_WALKWAY_CHANNELS)));
-            this.mFarm.setReadPressure(cursor.getInt(cursor.getColumnIndex(FarmEntry.COLUMN_READ_PRESSURE)));
-            this.mFarm.setTargetFlowDisplay(cursor.getDouble(cursor.getColumnIndex(FarmEntry.COLUMN_TARGET_FLOW_DISPLAY)));
-            this.mFarm.setStdReading(cursor.getDouble(cursor.getColumnIndex(FarmEntry.COLUMN_COMPARATIVE_STANDARD_METER)));
-            this.loaded = true;
-        }
     }
 
     /**
@@ -273,14 +244,6 @@ public class FarmController implements Parcelable {
 
     public void setContext(Context mContext) {
         this.mContext = mContext;
-    }
-
-    public Uri getUri() {
-        return mUri;
-    }
-
-    public void setUri(Uri mUri) {
-        this.mUri = mUri;
     }
 
     public boolean isLoaded() {

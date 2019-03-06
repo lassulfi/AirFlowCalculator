@@ -9,7 +9,6 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import com.poseidonos.airflowcalculator.R;
-import com.poseidonos.airflowcalculator.data.FarmContract;
 import com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry;
 
 public class FarmAdapter extends CursorAdapter {

@@ -9,7 +9,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -145,7 +144,7 @@ public class AdtionalInfoFragment extends Fragment {
                 int activePen = Integer.valueOf(activePensSpinner.getSelectedItem().toString());
                 int chnlWalkway = Integer.valueOf(chnlWalkwaysEditText.getText().toString());
                 int activeChnlWalk = Integer.valueOf(activeChnlWalkSpinner.getSelectedItem().toString());
-                int readPressure = Integer.valueOf(readPressureEditText.getText().toString());
+                double readPressure = Double.valueOf(readPressureEditText.getText().toString());
 
                 mFarmController.setNumPens(numPens);
                 mFarmController.setChanPerPen(chanPerPen);

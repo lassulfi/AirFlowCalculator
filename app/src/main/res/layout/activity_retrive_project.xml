@@ -23,8 +23,8 @@
         android:layout_gravity="center"
         android:id="@+id/empty_view_layout">
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center"
             android:layout_centerInParent="true">
@@ -47,7 +47,7 @@
                 android:gravity="center"
                 android:text="@string/empty_project_list"/>
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/btn_start_new_calc"
                 android:layout_marginTop="20dp"

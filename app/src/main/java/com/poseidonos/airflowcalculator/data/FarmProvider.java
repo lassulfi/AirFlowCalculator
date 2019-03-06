@@ -9,9 +9,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.util.Log;
 
-import com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry;
-
-import static com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry.*;
+import static com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry.COLUMN_FARM_NAME;
+import static com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry.CONTENT_ITEM_TYPE;
+import static com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry.CONTENT_LIST_TYPE;
+import static com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry.TABLE_NAME;
+import static com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry._ID;
 import static com.poseidonos.airflowcalculator.data.FarmContract.PATH_FARMS;
 
 public class FarmProvider extends ContentProvider {

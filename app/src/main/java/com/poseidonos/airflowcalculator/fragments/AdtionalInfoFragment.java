@@ -186,7 +186,7 @@ public class AdtionalInfoFragment extends Fragment {
                 R.layout.support_simple_spinner_dropdown_item, activeChnlWalkValues);
         activeChnlWalkAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         activeChnlWalkSpinner.setAdapter(activeChnlWalkAdapter);
-        activeChnlWalkSpinner.setSelection(mFarmController.getChnlWalkway() - 1);
+        activeChnlWalkSpinner.setSelection(mFarmController.getActiveChnlWalk() - 1);
         readPressureEditText.setText(String.valueOf(mFarmController.getReadPressure()));
     }
 

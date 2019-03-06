@@ -96,7 +96,7 @@ public class MainInfoFragment extends Fragment {
                     COLUMN_READ_PRESSURE};
             Cursor cursor = getActivity().getContentResolver().query(mUriClickedItem, projection,
                     null, null, null);
-            if(cursor.moveToFirst()){
+            if(cursor != null && cursor.moveToFirst()){
                 mFarmController.setNameSite(cursor.getString(cursor.getColumnIndex(COLUMN_FARM_NAME)));
                 mFarmController.setPanelGen(cursor.getInt(cursor.getColumnIndex(COLUMN_PANEL_GENERATION)));
                 mFarmController.setAvailNumComps(cursor.getInt(cursor.getColumnIndex(COLUMN_AVAILABLE_COMPRESSORS)));
@@ -107,7 +107,7 @@ public class MainInfoFragment extends Fragment {
                 mFarmController.setActivePens(cursor.getInt(cursor.getColumnIndex(COLUMN_ACTIVE_PENS)));
                 mFarmController.setChnlWalkway(cursor.getInt(cursor.getColumnIndex(COLUMN_NUMBER_WALKWAY_CHANNELS)));
                 mFarmController.setActiveChnlWalk(cursor.getInt(cursor.getColumnIndex(COLUMN_ACTIVE_WALKWAY_CHANNELS)));
-                mFarmController.setReadPressure(cursor.getInt(cursor.getColumnIndex(COLUMN_READ_PRESSURE)));
+                mFarmController.setReadPressure(cursor.getDouble(cursor.getColumnIndex(COLUMN_READ_PRESSURE)));
                 mFarmController.setLoaded(true);
             }
         }

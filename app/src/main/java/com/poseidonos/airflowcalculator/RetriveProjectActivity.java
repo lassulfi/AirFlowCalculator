@@ -146,21 +146,23 @@ public class RetriveProjectActivity extends AppCompatActivity implements LoaderM
     }
 
     private void showOrHideConfirmButtonAndCheckBoxes() {
-        if(confirmDeleteVisible == true){
-            for(int i = 0; i < listView.getCount(); i++){
-                View view = listView.getChildAt(i);
-                CheckBox checkBox = view.findViewById(R.id.list_item_checkbox);
-                checkBox.setVisibility(View.INVISIBLE);
+        if(listView.getCount() > 0) {
+            if (confirmDeleteVisible == true) {
+                for (int i = 0; i < listView.getCount(); i++) {
+                    View view = listView.getChildAt(i);
+                    CheckBox checkBox = view.findViewById(R.id.list_item_checkbox);
+                    checkBox.setVisibility(View.INVISIBLE);
+                }
+                confirmDeleteVisible = false;
+            } else {
+                for (int i = 0; i < listView.getCount(); i++) {
+                    View view = listView.getChildAt(i);
+                    CheckBox checkBox = view.findViewById(R.id.list_item_checkbox);
+                    checkBox.setChecked(false);
+                    checkBox.setVisibility(View.VISIBLE);
+                }
+                confirmDeleteVisible = true;
             }
-            confirmDeleteVisible = false;
-        } else {
-            for(int i = 0; i < listView.getCount(); i++){
-                View view = listView.getChildAt(i);
-                CheckBox checkBox = view.findViewById(R.id.list_item_checkbox);
-                checkBox.setChecked(false);
-                checkBox.setVisibility(View.VISIBLE);
-            }
-            confirmDeleteVisible = true;
         }
     }
 

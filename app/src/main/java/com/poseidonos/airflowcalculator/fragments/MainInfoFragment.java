@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.poseidonos.airflowcalculator.R;
 import com.poseidonos.airflowcalculator.controller.FarmController;
+import com.poseidonos.airflowcalculator.data.FarmContract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +102,7 @@ public class MainInfoFragment extends Fragment {
                 mFarmController.setPanelGen(cursor.getInt(cursor.getColumnIndex(COLUMN_PANEL_GENERATION)));
                 mFarmController.setAvailNumComps(cursor.getInt(cursor.getColumnIndex(COLUMN_AVAILABLE_COMPRESSORS)));
                 mFarmController.setCompFlow(cursor.getInt(cursor.getColumnIndex(COLUMN_COMPRESSOR_OUTPUT)));
-                mFarmController.setNumComps(cursor.getInt(cursor.getColumnIndex(COLUMN_AVAILABLE_COMPRESSORS)));
+                mFarmController.setNumComps(cursor.getInt(cursor.getColumnIndex(COLUMN_ACTIVE_COMPRESSORS)));
                 mFarmController.setNumPens(cursor.getInt(cursor.getColumnIndex(COLUMN_NUMBER_PENS)));
                 mFarmController.setChanPerPen(cursor.getInt(cursor.getColumnIndex(COLUMN_CHANNEL_PER_PEN)));
                 mFarmController.setActivePens(cursor.getInt(cursor.getColumnIndex(COLUMN_ACTIVE_PENS)));
@@ -272,7 +273,7 @@ public class MainInfoFragment extends Fragment {
         availNumCompsEditText.setText(String.valueOf(mFarmController.getAvailNumComps()));
         compFlowEditText.setText(String.valueOf(mFarmController.getCompFlow()));
         List<String> spinner = new ArrayList<>();
-        for(int i = 1; i <= mFarmController.getNumComps(); i++){
+        for(int i = 1; i <= mFarmController.getAvailNumComps(); i++){
             spinner.add(String.valueOf(i));
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),

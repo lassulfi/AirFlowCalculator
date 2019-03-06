@@ -12,6 +12,7 @@ import android.util.Log;
 import com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry;
 
 import static com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry.*;
+import static com.poseidonos.airflowcalculator.data.FarmContract.PATH_FARMS;
 
 public class FarmProvider extends ContentProvider {
 
@@ -20,13 +21,16 @@ public class FarmProvider extends ContentProvider {
     private FarmDbHelper mFarmDbHelper;
     private static final int FARMS = 100;
     private static final int FARM_ID = 101;
+    private static final int FARM_NAME = 102;
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static{
         sUriMatcher.addURI("com.poseidonos.airflowcalculator",
-                FarmContract.PATH_FARMS, FARMS);
+                PATH_FARMS, FARMS);
         sUriMatcher.addURI("com.poseidonos.airflowcalculator",
-                FarmContract.PATH_FARMS + "/#", FARM_ID);
+                PATH_FARMS + "/#", FARM_ID);
+        sUriMatcher.addURI("com.poseidonos.airflowcalculator",
+                PATH_FARMS + "/#/" + TABLE_NAME, FARM_NAME);
     }
 
     @Override
@@ -56,6 +60,12 @@ public class FarmProvider extends ContentProvider {
                 cursor = database.query(TABLE_NAME,
                         projection, selection, selectionArgs, null, null, sortOrder);
                 break;
+            case FARM_NAME:
+                selection = COLUMN_FARM_NAME + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                cursor = database.query(TABLE_NAME, projection, selection, selectionArgs,
+                        null, null, sortOrder);
+                break;
             default:
                 throw new IllegalStateException("Cannot query URI " + uri);
 
@@ -73,6 +83,7 @@ public class FarmProvider extends ContentProvider {
             case FARMS:
                 return CONTENT_LIST_TYPE;
             case FARM_ID:
+            case FARM_NAME:
                 return CONTENT_ITEM_TYPE;
             default:
                 throw new IllegalStateException("Unknown URI " + uri + "with match " + match);
@@ -118,8 +129,12 @@ public class FarmProvider extends ContentProvider {
                 selection = _ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return database.delete(TABLE_NAME, selection, selectionArgs);
+            case FARM_NAME:
+                selection = COLUMN_FARM_NAME + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                return database.delete(TABLE_NAME, selection, selectionArgs);
             default:
-                throw new IllegalStateException("A uri "+ uri + "do not support deleting data");
+                throw new IllegalStateException("The uri "+ uri + " do not support deleting data");
         }
     }
 
@@ -132,6 +147,10 @@ public class FarmProvider extends ContentProvider {
                 return updateFarms(uri, values, selection, selectionArgs);
             case FARM_ID:
                 selection = _ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                return updateFarms(uri, values, selection, selectionArgs);
+            case FARM_NAME:
+                selection = COLUMN_FARM_NAME + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return updateFarms(uri, values, selection, selectionArgs);
              default:

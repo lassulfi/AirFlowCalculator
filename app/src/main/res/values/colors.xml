@@ -6,4 +6,5 @@
     <color name="grayColor">#808080</color>
     <color name="darkGrayColor">#404040</color>
     <color name="lightBlue">#3399ff</color>
+    <color name="actionbar_color">#00574B</color>
 </resources>

@@ -18,7 +18,7 @@ public class Farm implements Parcelable {
     private int activePens; //Active Pens
     private int chnlWalkway; //Number of Walkway Channels
     private int activeChnlWalk; //Active Walkway Channels
-    private int readPressure; //Panel Set Pressure (psi)
+    private double readPressure; //Panel Set Pressure (psi)
     private double targetFlowDisplay; //Flow Meter Reading (Target)
     private double stdReading; //Comparative Standard Meter
 
@@ -38,7 +38,7 @@ public class Farm implements Parcelable {
         activePens = in.readInt();
         chnlWalkway = in.readInt();
         activeChnlWalk = in.readInt();
-        readPressure = in.readInt();
+        readPressure = in.readDouble();
         targetFlowDisplay = in.readDouble();
         stdReading = in.readDouble();
     }
@@ -135,11 +135,11 @@ public class Farm implements Parcelable {
         this.activeChnlWalk = activeChnlWalk;
     }
 
-    public int getReadPressure() {
+    public double getReadPressure() {
         return readPressure;
     }
 
-    public void setReadPressure(int readPressure) {
+    public void setReadPressure(double readPressure) {
         this.readPressure = readPressure;
     }
 
@@ -176,7 +176,7 @@ public class Farm implements Parcelable {
         parcel.writeInt(activePens);
         parcel.writeInt(chnlWalkway);
         parcel.writeInt(activeChnlWalk);
-        parcel.writeInt(readPressure);
+        parcel.writeDouble(readPressure);
         parcel.writeDouble(targetFlowDisplay);
         parcel.writeDouble(stdReading);
     }

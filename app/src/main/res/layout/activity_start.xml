@@ -21,24 +21,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnRetrieveSavedFarmConfiguration"
-        android:background="@drawable/grey_button_background"
+        android:background="@drawable/white_button_background"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="20dp"
-        android:textColor="@color/lightBlue"
         android:text="@string/btnRetrieveSavedFarmConfiguration"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnStartNewConfiguration"
-        android:background="@drawable/grey_button_background"
+        android:background="@drawable/white_button_background"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="20dp"
-        android:textColor="@color/lightBlue"
         android:text="@string/btnStartNewConfiguration"/>
 
 </LinearLayout>

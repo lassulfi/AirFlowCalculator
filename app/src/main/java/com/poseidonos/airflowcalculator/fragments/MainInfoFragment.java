@@ -1,10 +1,17 @@
 package com.poseidonos.airflowcalculator.fragments;
 
 
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -16,11 +23,25 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.poseidonos.airflowcalculator.MainActivity;
 import com.poseidonos.airflowcalculator.R;
 import com.poseidonos.airflowcalculator.controller.FarmController;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry.COLUMN_ACTIVE_COMPRESSORS;
+import static com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry.COLUMN_ACTIVE_PENS;
+import static com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry.COLUMN_ACTIVE_WALKWAY_CHANNELS;
+import static com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry.COLUMN_AVAILABLE_COMPRESSORS;
+import static com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry.COLUMN_CHANNEL_PER_PEN;
+import static com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry.COLUMN_COMPRESSOR_OUTPUT;
+import static com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry.COLUMN_FARM_NAME;
+import static com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry.COLUMN_NUMBER_PENS;
+import static com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry.COLUMN_NUMBER_WALKWAY_CHANNELS;
+import static com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry.COLUMN_PANEL_GENERATION;
+import static com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry.COLUMN_READ_PRESSURE;
+import static com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry._ID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,8 +57,11 @@ public class MainInfoFragment extends Fragment {
     private Button nextButton;
 
     private FarmController mFarmController;
+    private Uri mUriClickedItem;
 
     private static final String FARM_PARCELABLE = "farm_parceable";
+
+    private static final String URI_PARCELABLE = "uri_parceable";
 
     public MainInfoFragment() {
         // Required empty public constructor
@@ -59,6 +83,39 @@ public class MainInfoFragment extends Fragment {
 
         Bundle bundle = getArguments();
         mFarmController = (FarmController) bundle.get(FARM_PARCELABLE);
+        mUriClickedItem = (Uri) bundle.get(URI_PARCELABLE);
+
+        if(mUriClickedItem != null){
+            String[] projection = {_ID,
+                    COLUMN_FARM_NAME,
+                    COLUMN_PANEL_GENERATION,
+                    COLUMN_AVAILABLE_COMPRESSORS,
+                    COLUMN_COMPRESSOR_OUTPUT,
+                    COLUMN_ACTIVE_COMPRESSORS,
+                    COLUMN_NUMBER_PENS,
+                    COLUMN_CHANNEL_PER_PEN,
+                    COLUMN_ACTIVE_PENS,
+                    COLUMN_NUMBER_WALKWAY_CHANNELS,
+                    COLUMN_ACTIVE_WALKWAY_CHANNELS,
+                    COLUMN_READ_PRESSURE};
+            Cursor cursor = getActivity().getContentResolver().query(mUriClickedItem, projection,
+                    null, null, null);
+            if(cursor.moveToFirst()){
+                mFarmController.setNameSite(cursor.getString(cursor.getColumnIndex(COLUMN_FARM_NAME)));
+                mFarmController.setPanelGen(cursor.getInt(cursor.getColumnIndex(COLUMN_PANEL_GENERATION)));
+                mFarmController.setAvailNumComps(cursor.getInt(cursor.getColumnIndex(COLUMN_AVAILABLE_COMPRESSORS)));
+                mFarmController.setCompFlow(cursor.getInt(cursor.getColumnIndex(COLUMN_COMPRESSOR_OUTPUT)));
+                mFarmController.setNumComps(cursor.getInt(cursor.getColumnIndex(COLUMN_AVAILABLE_COMPRESSORS)));
+                mFarmController.setNumPens(cursor.getInt(cursor.getColumnIndex(COLUMN_NUMBER_PENS)));
+                mFarmController.setChanPerPen(cursor.getInt(cursor.getColumnIndex(COLUMN_CHANNEL_PER_PEN)));
+                mFarmController.setActivePens(cursor.getInt(cursor.getColumnIndex(COLUMN_ACTIVE_PENS)));
+                mFarmController.setChnlWalkway(cursor.getInt(cursor.getColumnIndex(COLUMN_NUMBER_WALKWAY_CHANNELS)));
+                mFarmController.setActiveChnlWalk(cursor.getInt(cursor.getColumnIndex(COLUMN_ACTIVE_WALKWAY_CHANNELS)));
+                mFarmController.setReadPressure(cursor.getInt(cursor.getColumnIndex(COLUMN_READ_PRESSURE)));
+                mFarmController.setLoaded(true);
+            }
+            //getActivity().getSupportLoaderManager().initLoader(0, null, this);
+        }
 
         if(mFarmController.isLoaded()){
             updateUI();
@@ -121,10 +178,6 @@ public class MainInfoFragment extends Fragment {
         });
 
         return rootView;
-    }
-
-    public void setFarmController(FarmController controller){
-        mFarmController = controller;
     }
 
     /**
@@ -204,8 +257,23 @@ public class MainInfoFragment extends Fragment {
                 panelGenSpinner.setSelection(2);
                 break;
         }
-        availNumCompsEditText.setText(mFarmController.getAvailNumComps());
-        compFlowEditText.setText(mFarmController.getCompFlow());
+        availNumCompsEditText.setText(String.valueOf(mFarmController.getAvailNumComps()));
+        compFlowEditText.setText(String.valueOf(mFarmController.getCompFlow()));
+        List<String> spinner = new ArrayList<>();
+        for(int i = 1; i <= mFarmController.getNumComps(); i++){
+            spinner.add(String.valueOf(i));
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.support_simple_spinner_dropdown_item, spinner);
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        numCompsSpinner.setAdapter(adapter);
         numCompsSpinner.setSelection(mFarmController.getNumComps() - 1);
+    }
+
+    public void resetUI(){
+        nameSiteEditText.setText(null);
+        availNumCompsEditText.setText(null);
+        compFlowEditText.setText(null);
+        numCompsSpinner.setSelection(0);
     }
 }

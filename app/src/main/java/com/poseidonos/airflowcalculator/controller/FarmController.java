@@ -1,12 +1,17 @@
 package com.poseidonos.airflowcalculator.controller;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.RequiresApi;
 
+import com.poseidonos.airflowcalculator.data.FarmContract;
 import com.poseidonos.airflowcalculator.data.FarmContract.FarmEntry;
 import com.poseidonos.airflowcalculator.entities.Farm;
 
@@ -234,7 +239,7 @@ public class FarmController implements Parcelable {
      * Set the value of Panel Set Pressure (psi)
      * @param readPressure
      */
-    public void setReadPressure(int readPressure){
+    public void setReadPressure(double readPressure){
         this.mFarm.setReadPressure(readPressure);
     }
 
@@ -336,7 +341,7 @@ public class FarmController implements Parcelable {
         parcel.writeByte((byte) (loaded ? 1 : 0));
     }
 
-    public boolean save() {
+    public ContentValues getFarmContentValues(){
         ContentValues values = new ContentValues();
         values.put(FarmEntry.COLUMN_FARM_NAME, mFarm.getNameSite());
         values.put(FarmEntry.COLUMN_PANEL_GENERATION, mFarm.getPanelGen());
@@ -352,10 +357,6 @@ public class FarmController implements Parcelable {
         values.put(FarmEntry.COLUMN_TARGET_FLOW_DISPLAY, mFarm.getTargetFlowDisplay());
         values.put(FarmEntry.COLUMN_COMPARATIVE_STANDARD_METER, mFarm.getStdReading());
 
-        Uri uri = mContext.getContentResolver().insert(FarmEntry.CONTENT_URI, values);
-        if(uri == null){
-            return false;
-        }
-        return true;
+        return values;
     }
 }

@@ -51,14 +51,6 @@ public class AdtionalInfoFragment extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_adtional_info, container, false);
 
-        //Retrieve the controller
-        Bundle bundle = getArguments();
-        mFarmController = (FarmController) bundle.getParcelable(FARM_PARCELABLE);
-
-        if(mFarmController.isLoaded()){
-            updateUI();
-        }
-
         //Retrieve elements from screen
         numPensEditText = rootView.findViewById(R.id.number_of_pens_edittext);
         chanPerPenEditText = rootView.findViewById(R.id.channels_per_pen_edittext);
@@ -67,6 +59,14 @@ public class AdtionalInfoFragment extends Fragment {
         activeChnlWalkSpinner = rootView.findViewById(R.id.active_walkways_channels_spinner);
         readPressureEditText = rootView.findViewById(R.id.panel_set_pressure_edittext);
         calculateButton = rootView.findViewById(R.id.btn_calculate);
+
+        //Retrieve the controller
+        Bundle bundle = getArguments();
+        mFarmController = (FarmController) bundle.getParcelable(FARM_PARCELABLE);
+
+        if(mFarmController.isLoaded()){
+            updateUI();
+        }
 
         numPensEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -159,6 +159,7 @@ public class AdtionalInfoFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ResultsActivity.class);
                 intent.putExtra(FARM_PARCELABLE, mFarmController);
                 startActivity(intent);
+                getActivity().finish();
             }
         });
 
@@ -166,24 +167,24 @@ public class AdtionalInfoFragment extends Fragment {
     }
 
     private void updateUI() {
-        numPensEditText.setText(mFarmController.getNumPens());
-        chanPerPenEditText.setText(mFarmController.getChanPerPen());
+        numPensEditText.setText(String.valueOf(mFarmController.getNumPens()));
+        chanPerPenEditText.setText(String.valueOf(mFarmController.getChanPerPen()));
         List<String> activePenSinnerValues = new ArrayList<>();
         for(int i = 0; i < mFarmController.getActivePens(); i++){
             activePenSinnerValues.add(Integer.toString(i + 1));
         }
         ArrayAdapter<String> activePenSpinnerAdapter = new ArrayAdapter<String>(getActivity(),
-                R.layout.support_simple_spinner_dropdown_item, mFarmController.getActivePens());
+                R.layout.support_simple_spinner_dropdown_item, activePenSinnerValues);
         activePenSpinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         activePensSpinner.setAdapter(activePenSpinnerAdapter);
         activePensSpinner.setSelection(mFarmController.getActivePens() - 1);
-        chnlWalkwaysEditText.setText(mFarmController.getChnlWalkway());
+        chnlWalkwaysEditText.setText(String.valueOf(mFarmController.getChnlWalkway()));
         List<String> activeChnlWalkValues = new ArrayList<>();
         for(int i = 0; i < mFarmController.getChnlWalkway(); i++){
             activeChnlWalkValues.add(Integer.toString(i + 1));
         }
         ArrayAdapter<String> activeChnlWalkAdapter = new ArrayAdapter<String>(getActivity(),
-                R.layout.support_simple_spinner_dropdown_item, mFarmController.getChnlWalkway());
+                R.layout.support_simple_spinner_dropdown_item, activeChnlWalkValues);
         activeChnlWalkAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         activeChnlWalkSpinner.setAdapter(activeChnlWalkAdapter);
         activeChnlWalkSpinner.setSelection(mFarmController.getChnlWalkway() - 1);

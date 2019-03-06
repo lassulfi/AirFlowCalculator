@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.poseidonos.airflowcalculator">
+    <!-- Permissions for read and write -->
+    <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY"/>
+    <uses-permission android:name="android.permission.READ_USER_DICTIONARY"/>
 
     <application
         android:allowBackup="true"
@@ -39,7 +42,7 @@
         </activity>
         <provider
             android:authorities="com.poseidonos.airflowcalculator"
-            android:name=".data.FarmProvider"
+            android:name="com.poseidonos.airflowcalculator.data.FarmProvider"
             android:exported="false"/>
     </application>
 

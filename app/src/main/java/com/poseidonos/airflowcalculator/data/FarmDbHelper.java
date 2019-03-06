@@ -29,7 +29,7 @@ public class FarmDbHelper extends SQLiteOpenHelper {
                 FarmEntry.COLUMN_ACTIVE_PENS + " INTEGER NOT NULL, " +
                 FarmEntry.COLUMN_NUMBER_WALKWAY_CHANNELS + " INTEGER NOT NULL, " +
                 FarmEntry.COLUMN_ACTIVE_WALKWAY_CHANNELS + " INTEGER NOT NULL, " +
-                FarmEntry.COLUMN_READ_PRESSURE + " INTEGER NOT NULL, " +
+                FarmEntry.COLUMN_READ_PRESSURE + " DOUBLE NOT NULL, " +
                 FarmEntry.COLUMN_TARGET_FLOW_DISPLAY + " DOUBLE, " +
                 FarmEntry.COLUMN_COMPARATIVE_STANDARD_METER + " DOUBLE);";
 
@@ -38,12 +38,12 @@ public class FarmDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if(oldVersion == 1){
-            String SQL_DROP_FARMS_TABLE = "DROP TABLE IF EXISTS " + DATABASE_NAME;
-            db.execSQL(SQL_DROP_FARMS_TABLE);
-        }
-        if(oldVersion > 1){
-            onCreate(db);
+        switch (oldVersion) {
+            case 1:
+                String SQL_DROP_MEDS_TABLE = "DROP TABLE IF EXISTS " + DATABASE_NAME;
+                db.execSQL(SQL_DROP_MEDS_TABLE);
+            case 2:
+                onCreate(db);
         }
     }
 }

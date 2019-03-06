@@ -4,24 +4,24 @@
     <string name="btnStartNewConfiguration">Start New Configuration</string>
     <string name="empty_project_list">No farms found.</string>
     <string name="main_info_title_textview">We need some information</string>
-    <string name="site_name_textview">Inform the site name</string>
+    <string name="site_name_textview">Site name</string>
     <string name="site_name_edittext_hint">Site name</string>
     <string name="panel_generation_edittext">Panel Generation</string>
-    <string name="available_compressors_textview">Inform the number of available compressors</string>
+    <string name="available_compressors_textview">Number of available compressors</string>
     <string name="available_compressors_edittext_hint">Available Compressors</string>
-    <string name="compressor_output_textview">Inform the compressor output CFM (FAD)</string>
+    <string name="compressor_output_textview">Compressor output CFM (FAD)</string>
     <string name="compressor_output_edittext_hint">Compressor Output CFM (FAD)</string>
     <string name="active_compressors_textview">Active compressors</string>
     <string name="btnNext">Next</string>
     <string name="aditional_info_textview">Aditional Info</string>
     <string name="number_of_pens_edittext_hint">Number of Pens</string>
-    <string name="channels_per_pen_textview">Inform the number of channels per pen</string>
+    <string name="channels_per_pen_textview">Number of channels per pen</string>
     <string name="channels_per_pen_edittext_hint">Channels per Pen</string>
     <string name="active_pens_textview">Active pens</string>
-    <string name="chnl_walkaways_textview">Inform the Number of Walkways Channels</string>
+    <string name="chnl_walkaways_textview">Number of Walkways Channels</string>
     <string name="chnl_walkaways_edittext_hint">Number of Walkways Channels</string>
     <string name="active_walkways_channels_spinner">Active Walkways Channels</string>
-    <string name="panel_set_pressure_textview">Inform the Panel Set Pressure (psi)</string>
+    <string name="panel_set_pressure_textview">Panel Set Pressure (psi)</string>
     <string name="panel_set_pressure_edittext_hint">Panel Set Pressure (psi)</string>
     <string name="btn_calculate_text">Calc It</string>
     <string name="target_flow_display_textview">Meter should read </string>
@@ -33,12 +33,18 @@
 
     <string name="toolbar_results_title">Results</string>
     <string name="toolbar_load_data_title">Load Farms</string>
+    <string name="toolbar_confirm_delete_title">Confirm delete</string>
 
     <string name="menu_item_delete_forever">Delete</string>
 
-    <string name="dialog_builder_delete_forever_message">Confirm delete? All data will be lost</string>
+    <string name="dialog_builder_delete_forever_message">Confirm delete? Selected data will be lost</string>
+    <string name="dialog_builder_delete_all_message">Confirm delete all data?</string>
     <string name="dialog_builder_delete_forever_positive_button">Confirm</string>
     <string name="dialog_builder_delete_forever_negative_button">Cancel</string>
+
+    <string name="dialog_builder_update_message">Farm Site already exists. Overwrite it?</string>
+    <string name="dialog_builder_update_positive_button">Yes</string>
+    <string name="dialog_builder_update_negative_button">Cancel</string>
 
     
     <string-array name="panel_generation_values">
